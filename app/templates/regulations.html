@@ -1,0 +1,142 @@
+{% include 'includes/_top.html' %}
+<style>
+  /* ✅ 메인 CSS 영향 제거용 독립 영역 */
+  .chat-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0 120px; /* 위/아래 여백 (푸터와 안 겹치게) */
+    box-sizing: border-box;
+  }
+
+  .chat-container {
+    width: 90%;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #38cb9a;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    width: 100%; /* header 좌우 꽉 차게 */
+  }
+
+  .chat-header img {
+    width: 55px;
+    height: 55px;
+    margin-right: 10px;
+  }
+
+  .chat-header h2 {
+    font-size: 1.4rem;
+    color: #38cb9a;
+    margin: 0;
+  }
+
+  #messages {
+    width: 100%; /* ✅ 답변창이 프레임 안으로 들어오게 */
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .message {
+    margin: 8px 0;
+    padding: 10px 15px;
+    border-radius: 12px;
+    max-width: 75%;
+    word-break: break-word;
+    line-height: 1.5;
+  }
+
+  /* ✅ 질문창 색상 유지 */
+  .user {
+    background: #f1f3f5;  /* 기존 초록색(#38cb9a) → 연회색으로 변경 */
+    color: #333;
+    margin-left: auto;
+    border: 1px solid #ccc;
+  }
+
+  /* ✅ 답변창 위치 및 디자인 조정 */
+  .bot {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    color: #333;
+    align-self: flex-start;
+  }
+
+  #inputbox {
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  #query {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    background: #38cb9a;
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 18px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #2ca682;
+  }
+</style>
+
+
+<div class="chat-wrapper">
+  <div class="chat-container">
+    <div class="chat-header">
+      <img src="/static/img/offciemate.png" alt="Officemate Logo" />
+      <h2>사내규정 Q&A 챗봇</h2>
+    </div>
+
+    <div id="messages"></div>
+
+    <div id="inputbox">
+      <input type="text" id="query" placeholder="질문을 입력하세요..." />
+      <button onclick="sendMessage()">전송</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function sendMessage() {
+  const query = document.getElementById("query");
+  const msgBox = document.getElementById("messages");
+  const text = query.value.trim();
+  if (!text) return;
+  msgBox.insertAdjacentHTML("beforeend", `<div class="message user">${text}</div>`);
+  query.value = "";
+  msgBox.scrollTop = msgBox.scrollHeight;
+  setTimeout(() => {
+    msgBox.insertAdjacentHTML("beforeend", `<div class="message bot">이건 예시 응답입니다. 실제 연결 시 서버 답변이 표시됩니다.</div>`);
+    msgBox.scrollTop = msgBox.scrollHeight;
+  }, 400);
+}
+</script>
+
+{% include 'includes/_bottom.html' %}

@@ -1,0 +1,134 @@
+{% include 'includes/_top.html' %}
+<style>
+  body {
+    font-family: 'GabiaNull', sans-serif;
+    background: #f5f7fa;
+    color: #122440;
+    margin: 0;
+  }
+
+  /* ✅ 로그인/회원가입 공통 레이아웃 */
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;  /* 상단 기준 */
+    min-height: calc(100vh - 160px); /* 상단·하단 높이 보정 */
+    padding-top: 120px; /* 헤더와의 동일 간격 */
+    padding-bottom: 80px;
+    box-sizing: border-box;
+  }
+
+  /* ✅ 카드 공통 스타일 */
+  .auth-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #38cb9a;
+    padding: 40px 30px;
+    width: 360px;
+    transition: all 0.25s ease;
+  }
+  .auth-box:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ✅ 타이틀 */
+  .mamber-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #120277;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  /* ✅ 입력 필드 */
+  .mamber-box input[type="text"],
+  .mamber-box input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+    transition: border 0.2s ease;
+  }
+  .mamber-box input:focus {
+    outline: none;
+    border-color: #38cb9a;
+    box-shadow: 0 0 4px rgba(56, 203, 154, 0.3);
+  }
+
+  /* ✅ 버튼 */
+  .mamber_btn {
+    display: block;
+    width: 100%;
+    background-color: #38cb9a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.2s ease;
+  }
+  .mamber_btn:hover {
+    background-color: #2da885;
+  }
+
+  /* ✅ 라벨 */
+  .mamber-label {
+    text-align: left;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  /* ✅ 하단 링크 */
+  .login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+  .login-link a {
+    color: #38cb9a;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<!-- ✅ 회원가입 폼 -->
+<div class="auth-container">
+  <div class="auth-box">
+    <div class="mamber-title">회원가입</div>
+    <form action="/mamber" method="post">
+        
+      <div class="mamber-label">ID</div>
+      <input type="text" name="id" placeholder="아이디를 입력하세요" required />
+
+      <div class="mamber-label">패스워드</div>
+      <input type="password" name="pwd" placeholder="비밀번호를 입력하세요" required />
+
+      <div class="mamber-label">이메일</div>
+      <input type="text" name="email" placeholder="example@email.com" required />
+
+      <div class="mamber-label">전화번호</div>
+      <input type="text" name="phone" placeholder="010-0000-0000" required />
+
+      <div class="mamber-label">회사 (선택)</div>
+      <input type="text" name="office" placeholder="회사명을 입력하세요 (선택)" />
+
+      <button type="submit" class="mamber_btn">회원가입</button>
+    </form>
+
+    <div class="login-link">
+      이미 계정이 있으신가요? <a href="/login">로그인</a>
+    </div>
+  </div>
+</div>
+
+{% include 'includes/_bottom.html' %}

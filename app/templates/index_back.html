@@ -1,0 +1,127 @@
+{% include 'includes/_top.html' %}
+
+<style>
+/* ✅ 페이지 전체 중앙 정렬용 컨테이너 */
+body {
+  margin: 0;
+  background-color: #f8f9fb;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 화면 전체 높이 확보 */
+}
+
+/* ✅ 메인 콘텐츠 정렬 */
+main {
+  flex: 1; /* 헤더, 푸터 제외한 나머지 공간 차지 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 세로 중앙 */
+  padding: 40px 0;
+}
+
+/* 보기용 컨테이너 */
+  .carousel {
+    position: relative;
+    width: 90%;
+    margin: 40px auto;
+    height: 360px;
+    background: #029aff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+  }
+
+  .carousel-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    border-radius: 16px;
+  }
+
+  .carousel-item {
+    min-width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  /* ✅ 버튼: 폰트 영향 제거 + 정확 중앙 정렬 */
+  .carousel button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); /* 버튼 자체의 수직 중앙 배치 */
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.65);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+
+    /* 핵심: 내부 콘텐츠 절대 중앙 */
+    display: grid;
+    place-items: center;
+
+    /* 폰트로 인한 여백/라인 제거 */
+    padding: 0;
+    line-height: 0;
+    font-size: 0; /* ← 엔티티/텍스트 사용 안 함(완전 차단) */
+  }
+
+  .carousel button:hover {
+    background: #38cb9a;
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .carousel .left  { left: 16px; }
+  .carousel .right { right: 16px; }
+
+  /* ✅ SVG 크기/정렬 고정 */
+  .carousel button svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    /* 가운데 정렬은 부모의 grid가 이미 보장 */
+  }
+</style>
+
+<main>
+  <div class="carousel">
+    <div class="carousel-inner" id="carousel-inner">
+      <div class="carousel-item" style="background:#029aff;">1번 페이지</div>
+      <div class="carousel-item" style="background:#6863ff;">2번 페이지</div>
+      <div class="carousel-item" style="background:#38cb9a;">3번 페이지</div>
+      <div class="carousel-item" style="background:#febc32; color:#122440;">4번 페이지</div>
+    </div>
+
+   <!-- 좌측 버튼 -->
+    <button class="left" onclick="prevSlide()">
+      <!-- 왼쪽 화살표 SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="#120277" stroke-width="3"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="14 5 7 12 14 19"></polyline>
+      </svg>
+    </button>
+
+    <!-- 우측 버튼 -->
+    <button class="right" onclick="nextSlide()">
+      <!-- 오른쪽 화살표 SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="#120277" stroke-width="3"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="10 5 17 12 10 19"></polyline>
+      </svg>
+    </button>
+  </div>
+</main>
+
+
+{% include 'includes/_bottom.html' %}

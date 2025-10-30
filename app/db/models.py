@@ -1,0 +1,1 @@
+# SQLAlchemy ORM 모델 정의 코드

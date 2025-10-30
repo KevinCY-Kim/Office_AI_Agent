@@ -4,6 +4,21 @@
 - Office 문서 자동화, 사내 규정 검색, 통계/보고서 작성, 공지/문서 이미지 자동 생성 등 기업 업무의 AI 기반 자동화 및 효율화를 목표로 하는 FastAPI 기반 시스템
 - 실제 현업에 맞춘 **모듈화 구조**, 데이터·보안·UI/UX 표준 엄격 준수
 
+## 🖼️ 서비스 주요 화면 (스크린샷)
+
+<p align="center">
+  <b>Main Page</b><br>
+  <img src="app/static/screenshot/main페이지.png" width="70%" alt="메인페이지 화면 캡처">
+  <br><b>AI 문서 생성기</b><br>
+  <img src="app/static/screenshot/문서생성기.png" width="70%" alt="문서생성기 화면 캡처">
+  <br><b>사내규정 챗봇</b><br>
+  <img src="app/static/screenshot/사내규정챗봇.png" width="70%" alt="사내규정챗봇 화면 캡처">
+  <br><b>통계·시각화</b><br>
+  <img src="app/static/screenshot/통계시각화.png" width="70%" alt="통계시각화 화면 캡처">
+  <br><b>포스터 생성기</b><br>
+  <img src="app/static/screenshot/포스터생성기.png" width="70%" alt="포스터 생성기 화면 캡처">
+</p>
+
 ## 🛠️ 기술 스택 및 주요 라이브러리
 - Python 3.10+, FastAPI, Jinja2, Uvicorn, SQLAlchemy, Pydantic
 - 기타: numpy, pandas, docx, custom GPT/Embedding, HTMX 등

@@ -1,5 +1,7 @@
 # Office AI Agent (FastAPI 기반)
 
+[▶️ 시현 영상 바로가기](https://youtu.be/vn1C4Fh9vio)
+
 ## 1. 프로젝트 소개
 - **Office AI Agent**는 FastAPI 기반의 R&D 문서 자동생성, 사내 규정 질의·챗봇, 통계 분석, 공지 관리 등 AI 기반 사무자동화를 지원하는 통합 Web 시스템입니다.
 - AI/LLM, RAG, 통계분석, 사내규정 관리 등 다양한 업무 프로세스를 일관되게 자동화합니다.
@@ -22,6 +24,7 @@
 Office_AI_Agent/
 ├── README.md
 ├── requirements.txt
+├── environment.yml  # (conda 가상환경용)
 ├── app/
 │   ├── main.py                # FastAPI 앱 진입점
 │   ├── routers/               # 모든 API 라우트
@@ -36,17 +39,19 @@ Office_AI_Agent/
 ```
 
 ## 5. 환경 구성 및 설치
-1. Python 3.9+ 및 venv 권장
-2. 가상환경 생성 및 진입
+- 본 프로젝트는 pip, conda 두 가지 방식 모두 지원합니다.
+- **[pip] requirements.txt로 복원:**
    ```bash
    python -m venv venv
    source venv/bin/activate  # (Windows: venv\Scripts\activate)
+   pip install -r requirements.txt    # (필수 패키지 전체 설치)
    ```
-3. 라이브러리 설치
+- **[conda] environment.yml로 복원:**
    ```bash
-   pip install -r requirements.txt
+   conda env create -f environment.yml
+   conda activate test   # (또는 yml 내 name 참고)
    ```
-4. (선택) .env 파일 설정, DB 경로/환경 지정
+- 환경재현·의존성 관리 시 반드시 `requirements.txt`와 `environment.yml` 파일을 모두 참고바랍니다.
 
 ## 6. 실행 방법
 ```bash

@@ -2,6 +2,19 @@
 
 [▶️ 시현 영상 바로가기](https://youtu.be/vn1C4Fh9vio)
 
+<p align="center">
+  <a href="https://youtu.be/vn1C4Fh9vio" target="_blank">
+    <img src="https://img.youtube.com/vi/vn1C4Fh9vio/0.jpg" alt="시현 영상 썸네일" width="480"/>
+  </a>
+</p>
+
+<!-- 또는 GitHub markdown에서 지원되는 경우 유튜브 iframe 삽입 (동일 위치에 배치) -->
+<!--
+<p align="center">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/vn1C4Fh9vio" title="시현 영상" frameborder="0" allowfullscreen></iframe>
+</p>
+-->
+
 ## 1. 프로젝트 소개
 - **Office AI Agent**는 FastAPI 기반의 R&D 문서 자동생성, 사내 규정 질의·챗봇, 통계 분석, 공지 관리 등 AI 기반 사무자동화를 지원하는 통합 Web 시스템입니다.
 - AI/LLM, RAG, 통계분석, 사내규정 관리 등 다양한 업무 프로세스를 일관되게 자동화합니다.

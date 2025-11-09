@@ -1,0 +1,107 @@
+{% include 'includes/_top.html' %}
+
+<style>
+/* ✅ 페이지 전체 중앙 정렬용 컨테이너 */
+body {
+  margin: 0;
+  background-color: #f8f9fb;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 화면 전체 높이 확보 */
+}
+
+/* ✅ 메인 콘텐츠 정렬 */
+main {
+  flex: 1; /* 헤더, 푸터 제외한 나머지 공간 차지 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 세로 중앙 */
+  /* padding: 40px 0; */ /* 상단 공백 조정을 위해 제거 또는 주석 처리 */
+}
+
+/* ✅ 캐러셀 박스 스타일 */
+.carousel {
+  position: relative;
+  width: 70%;
+  max-width: 1000px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ✅ 캐러셀 내부 */
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  height: 100%;
+}
+
+/* ✅ 각 페이지 아이템 */
+.carousel-item {
+  min-width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+/* ✅ 좌우 버튼 */
+.carousel button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.6);
+  border: none;
+  color: #120277;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  transition: 0.3s;
+}
+
+.carousel button:hover {
+  background: #38cb9a;
+  color: #fff;
+}
+
+.carousel .left { left: 15px; }
+.carousel .right { right: 15px; }
+</style>
+<main>
+  <div class="carousel">
+      <div class="carousel-inner" id="carousel-inner">
+          <img src="{{ url_for('static', path='img/page1.png') }}" class="carousel-item" style="background:#029aff;">
+          <div class="carousel-item" style="background:#6863ff;">2번 페이지</div>
+          <div class="carousel-item" style="background:#38cb9a;">3번 페이지</div>
+          <div class="carousel-item" style="background:#febc32; color:#122440;">4번 페이지</div>
+      </div>
+ 
+   <!-- 좌측 버튼 -->
+    <button class="left" onclick="prevSlide()">
+      <!-- 왼쪽 화살표 SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="#120277" stroke-width="3"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="14 5 7 12 14 19"></polyline>
+      </svg>
+    </button>
+
+    <!-- 우측 버튼 -->
+    <button class="right" onclick="nextSlide()">
+      <!-- 오른쪽 화살표 SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="#120277" stroke-width="3"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="10 5 17 12 10 19"></polyline>
+      </svg>
+    </button>
+  </div>
+</main>
+
+{% include 'includes/_bottom.html' %}

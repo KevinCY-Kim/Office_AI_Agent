@@ -1,0 +1,27 @@
+{% include 'includes/_top.html' %}  
+<!-- === ComfyUI + Prompt 섹션 === -->
+<div id="imageContainer" class="relative w-[95%] mx-auto mt-8 rounded-2xl shadow-lg overflow-hidden border border-gray-200 bg-white">
+
+  <!-- 프롬프트 입력창 iframe (상단) -->
+  <div class="w-full border-b border-gray-300">
+    <iframe
+      src="{{ url_for('comfy_prompt') }}"
+      id="comfy_prompt_frame"
+      class="w-full h-[140px] border-none"
+      title="ComfyUI Prompt Input"
+    ></iframe>
+  </div>
+
+  <!-- ComfyUI 본체 iframe (하단) -->
+  <div class="relative">
+    <iframe
+      id="comfy"
+      src="http://127.0.0.1:8188"
+      class="w-full h-[800px] border-none"
+      title="ComfyUI Workspace"
+    ></iframe>
+  </div>
+</div>
+
+{% include 'includes/_bottom.html' %}
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ComfyUI 프롬프트 입력</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-800">
+    <div class="flex flex-col w-full h-full px-4 py-3">
+      <!-- 입력줄 -->
+      <form action="/comfy_prompt" method="post" class="flex items-center gap-3 w-full mb-3">
+        <label for="prompt" class="text-sm font-medium whitespace-nowrap">입력 :</label>
+        <input
+          id="prompt"---
+          name="prompt"
+          type="text"
+          placeholder="예: cinematic portrait, volumetric lighting..."
+          class="flex-1 rounded-md border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-400"
+        />
+        <button
+          type="submit"
+          class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700"
+        >
+          제출
+        </button>
+      </form>
+
+      <!-- 결과 표시 -->
+      <div class="flex flex-row gap-3 w-full">
+        <div class="flex-1 bg-gray-50 border rounded-lg p-2 text-sm shadow-inner">
+          <span class="font-semibold text-green-600">긍정 프롬프트:</span>
+          <p class="whitespace-pre-wrap break-words mt-1">{{ po_pro }}</p>
+        </div>
+        <div class="flex-1 bg-gray-50 border rounded-lg p-2 text-sm shadow-inner">
+          <span class="font-semibold text-red-600">부정 프롬프트:</span>
+          <p class="whitespace-pre-wrap break-words mt-1">{{ ne_pro }}</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

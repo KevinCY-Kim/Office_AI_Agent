@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>DocuLab Office AI Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="{{ url_for('static', path='js/backend.js') }}"></script>
+</head>
+<body style="height: 400%; margin: 0;">
+    <!-- 헤더 -->
+    <header style="background-color: #120277; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+
+        <!-- 1️⃣ 로고 + 로그인/회원가입 -->
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 60px;
+        ">
+            <!-- 로고 + 타이틀 -->
+            <div style="display: flex; align-items: center; gap: 15px; cursor: pointer;"
+                 onclick="window.location.href='{{ url_for('index') }}'">
+                <img src="{{ url_for('static', path='img/logo.png') }}" 
+                     alt="DocuLab Logo"
+                     style="height: 100px; object-fit: contain;">
+            </div>
+
+            <!-- 로그인/회원가입 -->
+            <nav style="display: flex; gap: 10px;">
+                <button onclick="window.location.href='{{ url_for('login_page') }}'"
+                        style="
+                            padding: 7px 14px;
+                            background: #38cb9a;
+                            color: white;
+                            border: none;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: 600;
+                        ">
+                    로그인
+                </button>
+                <button onclick="window.location.href='{{ url_for('register_page') }}'"
+                        style="
+                            padding: 7px 14px;
+                            background: #38cb9a;
+                            color: white;
+                            border: none;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: 600;
+                        ">
+                    회원가입
+                </button>
+            </nav>
+        </div>
+
+        <!-- 2️⃣ 메뉴바 (로그인 아래) -->
+        <div class="top-bar" style="
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 8px 60px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        ">
+            <nav style="display: flex; gap: 10px;">
+                <button onclick="window.location.href='{{ url_for('generate_document') }}'"
+                        style="padding: 7px 14px; background: transparent; color: white; border: 1px solid #38cb9a; border-radius: 6px; cursor: pointer;">
+                    보고서 | 서식
+                </button>
+                <button onclick="window.location.href='{{ url_for('statistics') }}'"
+                        style="padding: 7px 14px; background: transparent; color: white; border: 1px solid #38cb9a; border-radius: 6px; cursor: pointer;">
+                    통계Tool
+                </button>
+                <button onclick="window.location.href='{{ url_for('get_notices') }}'"
+                        style="padding: 7px 14px; background: transparent; color: white; border: 1px solid #38cb9a; border-radius: 6px; cursor: pointer;">
+                    공지 | 게시판
+                </button>
+                <button onclick="window.location.href='{{ url_for('comfy') }}'"
+                        style="padding: 7px 14px; background: transparent; color: white; border: 1px solid #38cb9a; border-radius: 6px; cursor: pointer;">
+                    Comfy UI
+                </button>
+                <button onclick="window.location.href='{{ url_for('regulations') }}'"
+                        style="padding: 7px 14px; background: transparent; color: white; border: 1px solid #38cb9a; border-radius: 6px; cursor: pointer;">
+                    사내규정 챗봇
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 본문 내용 -->
+    </main>
+</body>
+</html>

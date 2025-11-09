@@ -1,0 +1,288 @@
+{% include 'includes/_top.html' %}
+<form action="stats" method="post" enctype="multipart/form-data">
+<div id="stats-wrapper">
+  <div class="container">
+    <!-- ===== 왼쪽 사이드바 ===== -->
+    <aside class="sidebar left">
+        <!-- 파일 업로드 -->
+        <label for="file">📁 [파일 업로드]</label>
+        <input type="file" id="file" name="file" accept=".csv, .xlsx, .xls" required>
+        <p id="loadingMsg" style="display:none;">업로드 중입니다. 🌀</p>
+        <hr>
+
+        <!-- 📊 분석 유형 -->
+        <label for="analysis_type">[분석 유형]</label>
+        <select id="analysis_type" name="analysis_type" onchange="toggleInputs()">
+          <option value="">-- 선택 --</option>
+          <option value="ttest">t-test</option>
+          <option value="anova_one">one-way ANOVA</option>
+          <option value="anova_two">two-way ANOVA</option>
+          <option value="anova_repeated">repeated ANOVA</option>
+          <option value="correlation">Correlation</option>
+        </select>
+
+        <!-- 공통 변수 -->
+        <label for="value_col">| 변수 (Value)</label>
+        <input type="text" id="value_col" name="value_col" placeholder="예: Sales">
+
+        <label for="alpha">| p-value (기본값)</label>
+        <input type="text" id="alpha" name="alpha" value="0.05">
+
+        <!-- t-test -->
+        <div id="ttest_fields" style="display:none;">
+          <label>| 그룹 변수 (group)</label>
+          <input type="text" id="group_col_ttest" name="group_col_ttest" placeholder="예: City">
+          <label>| 그룹1</label>
+          <input type="text" id="group1" name="group1" placeholder="예: high_region">
+          <label>| 그룹2</label>
+          <input type="text" id="group2" name="group2" placeholder="예: low_region">
+        </div>
+
+        <!-- One-way ANOVA -->
+        <div id="anova_one_fields" style="display:none;">
+          <label>| 그룹 변수</label>
+          <input type="text" id="group_col_one" name="group_col_one" placeholder="예: Product Class">
+        </div>
+
+        <!-- Two-way ANOVA -->
+        <div id="anova_two_fields" style="display:none;">
+          <label>| 그룹 변수</label>
+          <input type="text" id="group_col_two" name="group_col_two" placeholder="예: Channel">
+          <label>| 요인 (factors)</label>
+          <input type="text" id="factors_two" name="factors_two" placeholder="예: Product Class, Channel">
+        </div>
+
+        <!-- Repeated ANOVA -->
+        <div id="anova_repeated_fields" style="display:none;">
+          <label>| 반복 측정 변수 (within)</label>
+          <input type="text" id="within" name="within" placeholder="예: Year, Month">
+          <label>| 개체 변수 (subject)</label>
+          <input type="text" id="subject" name="subject" placeholder="예: Product Class">
+        </div>
+
+        <!-- Correlation -->
+        <div id="corr_fields" style="display:none;">
+          <label>| 변수1</label>
+          <input type="text" id="var1" name="var1" placeholder="예: Quantity">
+          <label>| 변수2</label>
+          <input type="text" id="var2" name="var2" placeholder="예: Sales">
+          <label>| Method (선택사항)</label>
+          <select id="method" name="method" disabled>
+            <option value="pearson">Pearson</option>
+            <option value="spearman">Spearman</option>
+          </select>
+          <small id="methodInfo" style="color:gray;">자동 선택 가능</small>
+        </div>
+
+        <hr>
+        <button type="submit" id="run_analysis">🔍 분석 실행</button>
+        <button type="reset" id="reset_form">🔄 초기화</button>
+    </aside>
+
+    <!-- ===== 중앙 영역 ===== -->
+    <section class="main">
+      <h2>결과 및 시각화</h2>
+      <div id="resultArea">
+      </div>
+      <div class="bottom-box">
+        <div class="bottom-right">
+          <h3>관련 통계 추천</h3>
+          <p>업로드된 자료에 기반한 분석 결과가 표시됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 오른쪽 사이드바 ===== -->
+    <aside class="sidebar right">
+      <div class="officemate-helper">
+        <h3>OfficeMate </h3>
+        <section container>채팅창</section>
+        <p class="button-group">통계 수행 도구 선택</p>
+        <div class="tool-buttons">
+          <button>SPSS</button>
+          <button>SAS</button>
+          <button>R</button>
+        </div>
+      </div>
+      <div class="input-section">
+        <input type="text" placeholder="질문 입력">
+        <button id="saveBtn">입력</button>
+      </div>
+    </aside>
+
+  </div><!-- /.container -->
+</div><!-- /#stats-wrapper -->
+</form>
+
+<style>
+  /* ✅ 전역 영향 차단: 통계 페이지 독립 스코프 */
+  #stats-wrapper {
+    all: initial;
+    * { all: unset; display: revert; }
+    display: block;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f7f8fc;
+    color: #222;
+    box-sizing: border-box;
+  }
+
+  /* ===== 기본 설정 ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+  #stats-wrapper html, 
+  #stats-wrapper body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+  #stats-wrapper body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f7f8fc; color: #222; overflow-x: hidden; }
+
+  #stats-wrapper .logo { font-weight: bold; font-size: 20px; }
+
+  #stats-wrapper .nav-links button {
+    background: transparent; color: white; border: none; margin: 0 8px; cursor: pointer; font-weight: 500;
+  }
+  #stats-wrapper .nav-links button:hover,
+  #stats-wrapper .nav-links .active { text-decoration: underline; color: #38cb9a; }
+
+  /* ===== 전체 레이아웃 ===== */
+  #stats-wrapper .container {
+    display: flex; flex-direction: row; flex-wrap: nowrap;
+    min-height: calc(100vh - 100px);
+    padding: 20px; gap: 20px; box-sizing: border-box;
+    margin: 0 auto; max-width: 1400px;
+  }
+
+  /* ===== 사이드바 ===== */
+  #stats-wrapper .sidebar {
+    flex: 0 0 280px; background: #e8ebf2; border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 20px; box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: flex-start;
+  }
+
+  #stats-wrapper .sidebar label { font-weight: 600; margin-top: 10px; color: #120277; }
+
+  #stats-wrapper .sidebar input,
+  #stats-wrapper .sidebar select {
+    width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 5px; font-size: 14px;
+  }
+
+  #stats-wrapper .sidebar button {
+    background-color: #38cb9a; color: #fff; border: none; border-radius: 6px;
+    padding: 8px 12px; margin-top: 10px; cursor: pointer; transition: all .25s ease;
+  }
+  #stats-wrapper .sidebar button:hover { background-color: #2da885; transform: translateY(-2px); }
+
+  #stats-wrapper .upload-note { margin-top: 15px; font-size: 13px; text-align: center; color: gray; }
+
+  /* ===== 메인 영역 ===== */
+  #stats-wrapper .main {
+    flex: 1; background: #fff; border-radius: 10px; padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; min-width: 0;
+  }
+  #stats-wrapper .main h2 { color: #120277; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+
+  #stats-wrapper #resultArea {
+    flex: 1; background: #f3f6fa; border-radius: 10px; padding: 15px;
+    overflow-y: auto; font-family: monospace; white-space: pre-wrap; margin-top: 15px;
+  }
+
+  /* ===== 오른쪽 사이드바 OfficeMate 도우미 ===== */
+  #stats-wrapper .officemate-helper { display: flex; flex-direction: column; align-items: flex-start; gap: 15px; }
+  #stats-wrapper .tool-section { width: 100%; }
+  #stats-wrapper .tool-section p { margin-bottom: 8px; font-weight: 600; color: #120277; }
+
+  #stats-wrapper .tool-buttons { display: flex; justify-content: space-between; gap: 8px; }
+  #stats-wrapper .tool-buttons button {
+    flex: 1; background-color: #38cb9a; color: #fff; border: none; border-radius: 6px;
+    padding: 8px 14px; cursor: pointer; transition: all .25s ease; text-align: center;
+  }
+  #stats-wrapper .tool-buttons button:hover { background-color: #2da885; transform: translateY(-2px); }
+
+  /* ===== 입력영역 ===== */
+  #stats-wrapper .input-section { display: flex; width: 100%; gap: 10px; }
+  #stats-wrapper .input-section input { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
+  #stats-wrapper .input-section button { background-color: #6863ff; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+  #stats-wrapper .input-section button:hover { background-color: #504ad9; }
+
+  /* ===== 하단 영역 ===== */
+  #stats-wrapper .bottom-box { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+  #stats-wrapper .bottom-box h3 { color: #333; }
+  #stats-wrapper .bottom-box p { font-size: 14px; color: #666; }
+
+  /* ===== 푸터 ===== */
+  #stats-wrapper footer {
+    background-color: #120277; color: #fff; text-align: center; padding: 15px;
+    font-size: 14px; line-height: 1.6; margin-top: 20px;
+  }
+</style>
+
+<script>
+  
+// 필드 토글 함수
+function toggleInputs() {
+  const type = document.getElementById("analysis_type").value;
+  // 모든 섹션 숨김
+  document.querySelectorAll("#ttest_fields, #anova_one_fields, #anova_two_fields, #anova_repeated_fields, #corr_fields")
+    .forEach(div => div.style.display = "none");
+
+  // 선택된 유형만 표시
+  if (type === "ttest") document.getElementById("ttest_fields").style.display = "block";
+  if (type === "anova_one") document.getElementById("anova_one_fields").style.display = "block";
+  if (type === "anova_two") document.getElementById("anova_two_fields").style.display = "block";
+  if (type === "anova_repeated") document.getElementById("anova_repeated_fields").style.display = "block";
+  if (type === "correlation") document.getElementById("corr_fields").style.display = "block";
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.querySelector("form");
+  const resultArea = document.querySelector("#resultArea");
+  const loadingMsg = document.querySelector("#loadingMsg");
+
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();  // 폼 기본 동작(새로고침) 막기
+    loadingMsg.style.display = "block"; // 업로드 메시지 표시
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("http://127.0.0.1:8001/statistics/stats", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("서버 응답 오류: " + response.status);
+      }
+      let chunks = [];
+      // FastAPI가 HTML을 반환한다고 가정
+      const html = await response.body.getReader();
+      while (true) {
+        const { done, value } = await html.read();
+        if (done) break;
+
+        chunks.push(value);
+      }
+      // 결과를 resultArea 안에 삽입
+      const blob = new Blob(chunks, { type: "image/jpeg" });
+      const url = URL.createObjectURL(blob);
+      const img = document.createElement("img");
+      img.src = url;
+      img.style = "width:600px; margin:30px;";
+      resultArea.appendChild(img);
+    } catch (err) {
+      console.error(err);
+      resultArea.innerHTML = `<p style="color:red;">오류 발생: ${err.message}</p>`;
+    } finally {
+      loadingMsg.style.display = "none";
+    }
+  });
+  resetBtn.addEventListener("click", () => {
+    document.querySelectorAll("input").forEach(input => (input.value = ""));
+    document.getElementById("analysis_type").value = "";
+    toggleInputs();
+    $("#resultArea").emtpy();
+    document.getElementById("methodInfo").textContent = "자동 선택 가능";
+  });
+});
+
+</script>
+{% include 'includes/_bottom.html' %}

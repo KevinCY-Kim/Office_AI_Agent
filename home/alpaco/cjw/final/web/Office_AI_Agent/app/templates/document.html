@@ -1,0 +1,167 @@
+{% include 'includes/_top.html' %}
+  <style>
+    body {
+      font-family: 'GabiaNull', sans-serif;
+      background: #f5f7fa;
+      color: #122440;
+      margin: 0;
+    }
+
+    /* ===== Header ===== */
+
+    nav button {
+      background-color: #38cb9a;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* ===== Main Layout ===== */
+    .container {
+      display: grid;
+      grid-template-columns: 220px 1fr 400px; /* 좌:사이드바, 가운데:미리보기, 우:입력창 */
+      min-height: calc(100vh - 60px);
+    }
+
+    /* ===== Left Sidebar ===== */
+    .sidebar {
+      background: #e8ebf2;
+      padding: 20px;
+      border-right: 1px solid #ccc;
+      overflow-y: auto;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar li { margin: 8px 0; }
+    .sidebar strong {
+      color: #120277;
+      margin-top: 15px;
+      display: block;
+    }
+
+    /* ===== Center Preview (문서 미리보기) ===== */
+    .preview {
+      background: white;
+      padding: 30px;
+      overflow-y: auto;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+    .preview h2 {
+      border-bottom: 2px solid #38cb9a;
+      padding-bottom: 10px;
+      color: #120277;
+    }
+
+    /* ===== Right Panel (입력창) ===== */
+    .form-panel {
+      background: #f9fafc;
+      padding: 20px;
+      border-left: 1px solid #ccc;
+      overflow-y: auto;
+    }
+    .form-panel h3 { color: #120277; margin-top: 0; }
+    .form-panel label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    .form-panel input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .file-upload {
+      border: 2px dashed #aaa;
+      padding: 10px;
+      text-align: center;
+      background: #f2f3f5;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    /* ===== Buttons ===== */
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .actions button {
+      background-color: #38cb9a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .actions button:hover {
+      background-color: #2da885;
+    }
+
+    footer {
+      background: #120277;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+  <div class="container">
+    <div class="sidebar">
+      <ul class="button"> <strong>R&D 산업 계획서</strong></ul>
+      <ul class="button"><strong>행정보고서</strong></ul>
+      <ul class="button"> <strong>연구소</strong> </ul>
+        <li class="button">- 연구계획서</li>
+        <li class="button">- 연구보고서</li>
+    <ul class="button"><strong>문서 서식</strong></ul>
+        <li class="button">- 부서별 서식</li>
+        <li class="button">- 국가R&D 서식</li>
+      </ul>
+    </div>
+
+
+    <!-- ===== 가운데: 문서 미리보기 ===== -->
+    <div class="preview" id="previewBox">
+      <h2>R&D 문서 미리보기</h2>
+      <p>문서를 생성하면 이곳에 자동으로 미리보기가 표시됩니다.</p>
+    </div>
+
+    <!-- ===== 오른쪽: 입력 폼 ===== -->
+    <div class="form-panel">
+      <h3>R&D 국가 산업 계획서</h3>
+      <form id="projectForm" enctype="multipart/form-data">
+        <label>프로젝트명</label>
+        <input type="text" id="project_name" placeholder="예: Med-Chest X-ray" required>
+
+        <label>세부사업명</label>
+        <input type="text" id="depart_name" placeholder="예: 산업기술R&D연구기획사업" required>
+
+        <label>과제번호</label>
+        <input type="text" id="project_no" placeholder="예: 123456789" required>
+
+        <label>기간</label>
+        <input type="text" id="period" placeholder="예: 2023.06.01~2025.12.31" required>
+
+        <label>예산(천원)</label>
+        <input type="text" id="budget" placeholder="예: 500,000" required>
+
+        <label>📎 참고 문서 첨부 (선택)</label>
+        <div class="file-upload">
+          <input type="file" id="attachment" name="file" accept=".pdf,.doc,.docx,.txt,.csv,.xlsx">
+          <small>PDF, DOCX, TXT, EXCEL, CSV 파일 지원</small>
+        </div>
+
+        <div class="actions">
+          <button type="button" onclick="generateReport()">문서 생성</button>
+          <button type="button" onclick="downloadReport()">다운로드</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% include 'includes/_bottom.html' %}
